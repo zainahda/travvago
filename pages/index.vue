@@ -2,6 +2,10 @@
   <div>
     <Navbar />
     <Landing />
+
+    <div class="box-weather">
+    <Weather/>
+    </div>
     <!-- populars star -->
     <!-- <Populars /> -->
     <!-- populars end -->
@@ -27,11 +31,14 @@
   v-for="popular in populars.results"
   :key="popular.id"
   :popular="popular"/> -->
+  <Footer/>
   </div>
 </template>
 
 <script>
+import Footer from '../components/Footer.vue';
 export default {
+  components: { Footer },
   async fetch() {
     this.all = await fetch(
       "https://travvago-backend.herokuapp.com/api/v1/destination/all?page=1"
@@ -76,5 +83,8 @@ export default {
   font-weight: 700;
   letter-spacing: 2px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.41));
+}
+.box-weather {
+  margin: 10px 0 30px 700px ;
 }
 </style>
