@@ -9,6 +9,18 @@
           Destination
         </h1>
       </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control"
+            placeholder="Cari Destinasi..."
+            aria-label="cari"
+            v-model="search"
+            @keyup="searchDestinations">
+          </div>
+        </div>
+      </div>
+
       <div class="row mb-4">
         <div
           class="col-md-4 mt-4"
@@ -24,30 +36,30 @@
 
 <script>
 export default {
-  async fetch() {
-    this.all = await fetch(
-      "https://travvago-backend.herokuapp.com/api/v1/destination/all?page=1"
-    ).then((res) => res.json());
-  },
   data() {
     return {
       all: [],
     };
   },
+  async fetch() {
+    this.all = await fetch(
+      "https://travvago-backend.herokuapp.com/api/v1/destination/all?page=1"
+    ).then((res) => res.json());
+  },
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 .overlay {
   background: linear-gradient(294.89deg, #fea858 0.54%, #6cc6cb 99.34%);
   background-size: cover;
 }
 .header h1 {
   display: flex;
-  font-family: "Satisfy", cursive;
+  font-family: 'Montserrat', sans-serif;
   margin-bottom: 50px;
-  color: #ffffff;
+  color: #f85e1d;
   justify-content: center;
   font-weight: bold;
   font-size: 48px;

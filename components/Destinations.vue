@@ -10,7 +10,7 @@
         img-width="600px"
         img-height="500px"
       >
-      <nuxt-link class="explore btn btn-block" to="/detailcard">Explore Now</nuxt-link>
+      <nuxt-link class="explore btn btn-block" to="/${destination.id}">Explore Now</nuxt-link>
           <!-- <b-button class="explore btn-block"></b-button> -->
       </b-card>
       <b-card-text
