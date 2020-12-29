@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-group">
+    <!-- <div class="card-group">
       <b-card
         class="card animate__animated animate__fadeInDown animate__slower"
         overlay
@@ -11,7 +11,6 @@
         img-height="500px"
       >
       <nuxt-link class="explore btn btn-block" to="/${destination.id}">Explore Now</nuxt-link>
-          <!-- <b-button class="explore btn-block"></b-button> -->
       </b-card>
       <b-card-text
         class="info animate__animated animate__fadeInUp animate__slower"
@@ -21,21 +20,21 @@
       <div>
     <b-form-rating class="ratings" id="rating-inline" inline :value="all.ratings"></b-form-rating>
   </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 export default {
   
-  props: {
-    all: {},
-  },
+  // props: {
+  //   all: {},
+  // },
 };
 </script>
 
 <style scoped>
-.explore {
+/* .explore {
   color: white;
   border: 1px solid grey;
   background: linear-gradient(180deg, #fea858 0%, #f85e1d 100%);
@@ -70,7 +69,7 @@ export default {
   color: #FFD700;
   left: 20px;
   top: 50px;
-}
+} */
 /* .text {
   color: white;
   font-size: 20px;

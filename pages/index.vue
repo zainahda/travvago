@@ -1,66 +1,62 @@
 <template>
-  <div>
-    <Navbar />
-    <Landing />
-
-    <div class="box-weather">
-    <Weather/>
+  <div class="container">
+    <div class="header">
+      <h1 class="animate__animated animate__fadeInLeft animate__slower">Destinations</h1>
     </div>
-    <!-- populars star -->
-    <!-- <Populars /> -->
-    <!-- populars end -->
-    <!-- destination card start -->
-    <div class="container">
-      <div class="header">
-        <h1 class="animate__animated animate__fadeInLeft animate__slower">Destination</h1>
-
-        <div class="row mb-4">
-          <div
-            class="col-md-4 mt-4"
-            v-for="all in all.results.slice(0, 12)"
-            :key="all.id"
+    <div class="row mb-4">
+    <div class="col-md-4 mt-4" v-for="destination in destinations.slice(0, 12)"
+          :key="destination.id">
+        <div
+          class="card-group"
+        >
+          <b-card
+            class="card animate__animated animate__fadeInDown animate__slower"
+            overlay
+            :img-src="destination.image"
+            :img-alt="destination.title"
+            text-variant="info"
+            img-width="600px"
+            img-height="500px"
           >
-          <Destinations :all="all" />
+            <nuxt-link
+              class="explore btn btn-block"
+              :to="`/destinations/${destination.id}`"
+              >Explore Now</nuxt-link
+            >
+          </b-card>
+          <b-card-text
+            class="info animate__animated animate__fadeInUp animate__slower"
+          >
+            {{ destination.name }}
+          </b-card-text>
+          <div>
+            <b-form-rating
+              class="ratings"
+              id="rating-inline"
+              inline
+              :value="destination.ratings"
+            ></b-form-rating>
           </div>
         </div>
-      </div>
     </div>
-    <Galery />
-    <!-- destination card end -->
-    <!-- <ProductCard
-  v-for="popular in populars.results"
-  :key="popular.id"
-  :popular="popular"/> -->
-  <Footer/>
+  </div>
   </div>
 </template>
 
 <script>
-import Footer from '../components/Footer.vue';
 export default {
-  components: { Footer },
-  async fetch() {
-    this.all = await fetch(
-      "https://travvago-backend.herokuapp.com/api/v1/destination/all?page=1"
-    ).then((res) => res.json());
-  },
   data() {
     return {
-      all: [],
+      destinations: [],
     };
   },
-
-  
-  // async fetch(){
-  //   this.populars = await fetch(
-  //     'https://travvago-backend.herokuapp.com/api/v1/destination/populars?page=2'
-  //   ).then((res) => res.json())
-  // },
-  // data() {
-  //   return {
-  //     populars: []
-  //   }
-  // }
+  created() {
+    fetch("https://travvago-backend.herokuapp.com/api/v1/destination/all")
+      .then((response) => response.json())
+      .then((data) => {
+        this.destinations = data.results;
+      });
+  },
 };
 </script>
 
@@ -84,7 +80,33 @@ export default {
   letter-spacing: 2px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.41));
 }
-.box-weather {
-  margin: 10px 0 30px 700px ;
+.explore {
+  color: white;
+  border: 1px solid grey;
+  background: linear-gradient(180deg, #fea858 0%, #f85e1d 100%);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.41));
+  margin: 425px auto;
 }
+.explore:hover {
+  background: white;
+  color: #f85e1d;
+}
+.info {
+  position: absolute;
+  margin: 10px 0 0 5px;
+  background: linear-gradient(
+    135deg,
+    rgba(248, 94, 29, 0.8) 80%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  padding: 5px 100px 5px 5px;
+  color: #ffffff;
+}
+.ratings {
+  position: absolute;
+  color: #FFD700;
+  left: 20px;
+  top: 50px;
+}
+
 </style>

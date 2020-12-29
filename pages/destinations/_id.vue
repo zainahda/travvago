@@ -1,28 +1,17 @@
 <template>
   <div>
-    <div class="top">
-      <Navbar />
-    </div>
-    <!-- <pre> {{ detail }} </pre> -->
+    <pre>{{ destination }}</pre>
     <div class="container">
-      <b-img :src="destination.image"></b-img>
+
+      <div class="title">
+      <b-img :src="destination.image" fluid :alt="destination.name"></b-img>
+      <h1><em>{{ destination.name }}</em></h1>
+      <h4>{{ destination.address }}</h4>
+      <h4 v-for="guide in guides" :key="guide">Termasuk dalam <strong> {{ guide.description }}</strong> Covid-19</h4>
+      </div>
 
       <div class="content">
-        <h1>{{ destination.name }}</h1>
-        <h3>{{ destination.address }}</h3>
         <p>{{ destination.about }}</p>
-      </div>
-
-      <div class="opening">
-        <p v-for="hour in opening_hours" :key="hour.id">
-          {{ hour.day_name }} <br />
-          ({{ hour.time_from }} - {{ hour.time_to }})
-        </p>
-      </div>
-
-      <div class="guides" v-for="guide in guides" :key="guide">
-        <h3>Patuhi Protokol Kesehatan</h3>
-        <h5>{{ guide.description }}</h5>
       </div>
     </div>
   </div>
