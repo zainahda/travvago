@@ -10,7 +10,7 @@
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="navbar-link ml-auto">
                 <b-nav-item href="/">Home |</b-nav-item>
-                <b-nav-item href="/destinations">Destination |</b-nav-item>
+                <b-nav-item href="/destination">Destination |</b-nav-item>
                 <b-nav-item href="#">Galery |</b-nav-item>
             </b-navbar-nav>
                 <b-button class="btn btn-login" href="../users/login"><svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
