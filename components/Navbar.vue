@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="nav-all">
     <b-navbar toggleable="lg" type="light">
         <div class="container navbar">
             <b-img src="../assets/logo.png" width="50px"></b-img>
@@ -98,5 +98,8 @@ export default {
 .navbar-brand {
     font-size: 36px;
 }
+}
+.nav-all {
+    background-color: #A2A2A2;
 }
 </style>

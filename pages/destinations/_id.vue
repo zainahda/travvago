@@ -1,15 +1,18 @@
 <template>
   <div>
-    <pre>{{ latitude }} {{ longitude }}</pre>
+        <b-img class="img-hero" :src="destination.image" fluid :alt="destination.name"></b-img>
     <div class="container">
       <div class="title">
-        <b-img :src="destination.image" fluid :alt="destination.name"></b-img>
         <h1>
           <em>{{ destination.name }}</em>
         </h1>
         <h4>{{ destination.address }}</h4>
-        <h4 v-for="guide in guides.slice(8,9)" :key="guide">
-          Termasuk dalam <span class="zonasi"><strong> {{ guide.description }}</strong></span> Covid-19
+        <h4 v-for="guide in guides.slice(8, 9)" :key="guide">
+          Termasuk dalam
+          <span class="zonasi"
+            ><strong> {{ guide.description }}</strong></span
+          >
+          Covid-19
         </h4>
       </div>
 
@@ -17,7 +20,11 @@
         <p>{{ destination.about }}</p>
 
         <div class="weather-card">
-          <b-card no-body class="overflow-hidden ml-auto mr-auto" style="max-width: 800px">
+          <b-card
+            no-body
+            class="overflow-hidden ml-auto mr-auto"
+            style="max-width: 800px"
+          >
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img
@@ -27,7 +34,7 @@
                 ></b-card-img>
               </b-col>
               <b-col md="6">
-                <b-card-body class="card-body mt-5 ml-5":title="name">
+                <b-card-body class="card-body mt-5 ml-5" :title="name">
                   <b-card-text>
                     <h5>{{ dateBuilder() }}</h5>
                     <p class="temp">{{ Math.round(maxTemp) }}°c</p>
@@ -38,7 +45,7 @@
             </b-row>
           </b-card>
 
-          <div class="information-head mt-3 ">
+          <div class="information-head mt-3">
             <h3 class="information-title">Operational Hours</h3>
             <div
               class="information ml-2 mt-2"
@@ -60,7 +67,6 @@
               </ul>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -85,7 +91,7 @@ export default {
     };
   },
   beforeMount() {
-    this.getWeather();
+    // this.getWeather();
   },
   created() {
     fetch(
@@ -98,12 +104,13 @@ export default {
         this.longitude = data.results.lng;
         this.opening_hours = data.results.opening_hours;
         this.guides = data.results.guides;
+        this.getWeather(data.results);
       });
   },
   methods: {
-    getWeather() {
-      let lat = `${this.latitude}`;
-      let lng = `${this.longitude}`;
+    getWeather(data) {
+      let lat = data["lat"];
+      let lng = data["lng"];
       const apiKey = "c04cf6ec1e38d1c38628564a821b0bb5";
       fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${apiKey}`
@@ -186,10 +193,14 @@ export default {
 .overcast {
   font-size: 20px;
 }
-.information-title, .guides-title {
+.information-title,
+.guides-title {
   color: #f85e1d;
   font-size: 40px;
   font-family: "Montserrat", sans-serif;
 }
-
+.img-hero {
+  width: 100%;
+  height: 782px;
+}
 </style>
