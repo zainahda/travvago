@@ -1,14 +1,33 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1 class="animate__animated animate__fadeInLeft animate__slower">Destinations</h1>
+      <h1 class="animate__animated animate__fadeInLeft animate__slower">
+        Destinations
+      </h1>
     </div>
+
+    <!-- <div class="row mt-3">
+      <div class="col">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Cari Destinasi..."
+            aria-label="cari"
+            v-model="search"
+            @keyup="searchDestinations"
+          />
+        </div>
+      </div>
+    </div> -->
+
     <div class="row mb-4">
-    <div class="col-md-4 mt-4" v-for="destination in destinations.slice(0, 12)"
-          :key="destination.id">
-        <div
-          class="card-group"
-        >
+      <div
+        class="col-md-4 mt-4"
+        v-for="destination in destinations.slice(0, 12)"
+        :key="destination.id"
+      >
+        <div class="card-group">
           <b-card
             class="card animate__animated animate__fadeInDown animate__slower"
             overlay
@@ -29,17 +48,16 @@
           >
             {{ destination.name }}
           </b-card-text>
-          <div>
-            <b-form-rating
-              class="ratings"
-              id="rating-inline"
-              inline
-              :value="destination.ratings"
-            ></b-form-rating>
-          </div>
+            <pre>{{ latitude }} {{ longitude}}</pre>
+
+          <!-- <div class="weather-box">
+            <div class="temp">{{ Math.round(temp) }}°c</div>
+            <div class="weather">{{ overcast }}</div>
+          </div> -->
+
         </div>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -48,6 +66,13 @@ export default {
   data() {
     return {
       destinations: [],
+      currentTemp: "",
+      minTemp: "",
+      maxTemp: "",
+      overcast: "",
+      name: "",
+      latitude: "",
+      longitude: "",
     };
   },
   created() {
@@ -55,8 +80,32 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.destinations = data.results;
+        this.latitude = data.results.lat;
+        this.longitude = data.results.lng;
+        this.getWeather(data.results);
       });
   },
+  methods: {
+    getWeather(data) {
+      let lat = data["lat"];
+      let lng = data["lng"];
+      const apiKey = "c04cf6ec1e38d1c38628564a821b0bb5";
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${apiKey}`
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          this.currentTemp = response.main.temp;
+          this.minTemp = response.main.temp_min;
+          this.maxTemp = response.main.temp_max;
+          this.name = response.name;
+          this.overcast = response.weather[0].description;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  }
 };
 </script>
 
@@ -104,9 +153,19 @@ export default {
 }
 .ratings {
   position: absolute;
-  color: #FFD700;
+  color: #ffd700;
   left: 20px;
   top: 50px;
 }
-
+/* .weather-box .temp {
+  display: inline-block;
+  padding: 10px 25px;
+  color: #FFF;
+  font-size: 25px;
+  font-weight: 900;
+  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+  background-color:rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+} */
 </style>

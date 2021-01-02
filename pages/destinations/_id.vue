@@ -1,11 +1,16 @@
 <template>
   <div>
-        <b-img class="img-hero" :src="destination.image" fluid :alt="destination.name"></b-img>
+    <b-img
+      class="img-hero"
+      :src="destination.image"
+      fluid
+      :alt="destination.name"
+    ></b-img>
     <div class="container">
       <div class="title">
-        <h1>
+        <div class="title-text">
           <em>{{ destination.name }}</em>
-        </h1>
+        </div>
         <h4>{{ destination.address }}</h4>
         <h4 v-for="guide in guides.slice(8, 9)" :key="guide">
           Termasuk dalam
@@ -34,11 +39,12 @@
                 ></b-card-img>
               </b-col>
               <b-col md="6">
-                <b-card-body class="card-body mt-5 ml-5" :title="name">
-                  <b-card-text>
-                    <h5>{{ dateBuilder() }}</h5>
-                    <p class="temp">{{ Math.round(maxTemp) }}°c</p>
-                    <p class="overcast">{{ overcast }}</p>
+                <b-card-body class="card-body mt-5 ml-5">
+                  <b-card-text class="weather-box">
+                    <div class="location">{{ name }}</div>
+                    <div class="date">{{ dateBuilder() }}</div>
+                    <div class="temp">{{ Math.round(maxTemp) }}°c</div>
+                    <div class="weather">{{ overcast }}</div>
                   </b-card-text>
                 </b-card-body>
               </b-col>
@@ -66,6 +72,16 @@
                 </li>
               </ul>
             </div>
+          </div>
+
+          <div class="maps mt-5">
+            <GmapMap
+              :center="{ lat: 10., lng: 10 }"
+              :zoom="15"
+              map-type-id="roadmap"
+              style="width: 1000px; height: 520px;"
+            >
+            </GmapMap>
           </div>
         </div>
       </div>
@@ -185,22 +201,58 @@ export default {
 .content {
   margin-top: 30px;
 }
-.temp {
-  color: #f85e1d;
-  font-size: 60px;
-  margin-bottom: -10px;
-}
-.overcast {
-  font-size: 20px;
-}
 .information-title,
 .guides-title {
   color: #f85e1d;
   font-size: 40px;
+  font-weight: 700;
   font-family: "Montserrat", sans-serif;
+
 }
 .img-hero {
   width: 100%;
   height: 782px;
 }
+.title-text {
+  color: #f85e1d;
+  font-size: 50px;
+  font-weight: 500;
+  font-style: italic;
+}
+.location {
+  margin-top: -20px;
+  color: #f85e1d;
+  font-size: 50px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
+}
+.date {
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  text-align: center;
+}
+.weather-box .temp {
+  display: inline-block;
+  padding: 10px 25px;
+  color: #f85e1d;
+  font-size: 70px;
+  font-weight: 900;
+  text-shadow: 3px 3px rgba(0, 0, 0, 0.25);
+  background-color:rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  margin-left: 55px;
+  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+.weather {
+  text-align: center;
+  color: #f85e1d;
+  font-size: 35px;
+  font-weight: 700;
+  font-style: italic;
+  text-shadow: 3px 3px rgba(0, 0, 0, 0.25);
+  margin-top: 15px;
+}
+
 </style>
