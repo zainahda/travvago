@@ -6,21 +6,6 @@
       </h1>
     </div>
 
-    <!-- <div class="row mt-3">
-      <div class="col">
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Cari Destinasi..."
-            aria-label="cari"
-            v-model="search"
-            @keyup="searchDestinations"
-          />
-        </div>
-      </div>
-    </div> -->
-
     <div class="row mb-4">
       <div
         class="col-md-4 mt-4"

@@ -1,14 +1,34 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1 class="animate__animated animate__fadeInLeft animate__slower">Destinations</h1>
+      <h1 class="animate__animated animate__fadeInLeft animate__slower">
+        Destinations
+      </h1>
     </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <div class="input-group mb-3 shadow">
+          <input
+              v-model="search"
+              type="text"
+              class="form-control"
+              placeholder="Cari Destinasi .."
+              aria-label="Cari"
+              aria-describedby="basic-addon1"
+              @keyup="searchDestination"
+            />
+        </div>
+      </div>
+    </div>
+
     <div class="row mb-4">
-    <div class="col-md-4 mt-4" v-for="destination in destinations"
-          :key="destination.id">
-        <div
-          class="card-group"
-        >
+      <div
+        class="col-md-4 mt-4"
+        v-for="destination in destinations"
+        :key="destination.id"
+      >
+        <div class="card-group shadow">
           <b-card
             class="card animate__animated animate__fadeInDown animate__slower"
             overlay
@@ -38,8 +58,8 @@
             ></b-form-rating>
           </div>
         </div>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -48,6 +68,7 @@ export default {
   data() {
     return {
       destinations: [],
+      search: '',
     };
   },
   created() {
@@ -57,6 +78,14 @@ export default {
         this.destinations = data.results;
       });
   },
+  methods: {
+  searchDestination(){
+    fetch(`https://travvago-backend.herokuapp.com/api/v1/destination/search?search=${search}`)
+      .then((response) => this.destinations(response.data))
+      .catch((error) => console.log(error));
+  }
+  },
+
 };
 </script>
 
@@ -104,9 +133,8 @@ export default {
 }
 .ratings {
   position: absolute;
-  color: #FFD700;
+  color: #ffd700;
   left: 20px;
   top: 50px;
 }
-
 </style>

@@ -15,7 +15,7 @@
         <h4 v-for="guide in guides.slice(8, 9)" :key="guide">
           Termasuk dalam
           <span class="zonasi"
-            ><strong> {{ guide.description }}</strong></span
+            ><strong > {{ guide.description }}</strong></span
           >
           Covid-19
         </h4>
@@ -73,11 +73,11 @@
               </ul>
             </div>
           </div>
-
+            <pre>{{ latitude }} {{ longitude }}</pre>
           <div class="maps mt-5">
             <GmapMap
-              :center="{ lat: 10., lng: 10 }"
-              :zoom="15"
+              :center="coordinate"
+              :zoom="17"
               map-type-id="roadmap"
               style="width: 1000px; height: 520px;"
             >
@@ -91,6 +91,7 @@
 
 <script>
 export default {
+  
   data() {
     return {
       id: this.$route.params.id,
@@ -104,6 +105,10 @@ export default {
       name: "",
       latitude: "",
       longitude: "",
+      coordinate: {
+              lat: -8.527716,
+              lng: 119.48332
+            }
     };
   },
   beforeMount() {
@@ -222,7 +227,7 @@ export default {
 .location {
   margin-top: -20px;
   color: #f85e1d;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 500;
   text-align: center;
   text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
