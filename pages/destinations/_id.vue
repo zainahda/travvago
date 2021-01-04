@@ -73,7 +73,8 @@
               </ul>
             </div>
           </div>
-            <pre>{{ latitude }} {{ longitude }}</pre>
+
+
           <div class="maps mt-5">
             <GmapMap
               :center="coordinate"
