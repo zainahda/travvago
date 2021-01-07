@@ -8,8 +8,8 @@
           Temukan hal-hal menakjubkan kapan saja, dimana saja.
         </p>
         <div></div>
-        <b-button size="lg" class="button  animate__animated animate__fadeInUp animate__slower" type="submit"
-          >Explore Now</b-button
+        <nuxt-link to="/destination" class="btn button" type="submit"
+          >Explore Now</nuxt-link
         >
       </div>
     </b-jumbotron>
@@ -35,6 +35,7 @@ export default {};
   position: relative;
 }
 .jumbotron::after {
+  position: absolute;
   content: "";
   display: block;
   width: 100%;
@@ -44,13 +45,12 @@ export default {};
     rgba(29, 116, 248, 0.5) 0%,
     rgba(0, 0, 0, 0.125) 100%
   );
-  position: absolute;
   bottom: 0;
   left: 0;
 }
 .jumbotron,
 #display-4 {
-  font-size: 36px;
+  font-size: 25px;
   font-family: 'Lato', sans-serif;
   color: white;
   line-height: 52px;
@@ -64,6 +64,7 @@ export default {};
   color: white;
 }
 .btn {
+  
   margin-top: 10px;
 }
 .button:active {
@@ -83,6 +84,7 @@ export default {};
     height: 782px;
   }
   #display-4 {
+    font-size: 36px;
     margin-top: 360px;
   }
   .btn {

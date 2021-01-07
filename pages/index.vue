@@ -1,6 +1,11 @@
 <template>
+<div>
+  <Navbar/>
+  <Landing/>
+  
   <div class="container">
-    <div class="header">
+    <Stats/>
+    <div class="header mt-5">
       <h1 class="animate__animated animate__fadeInLeft animate__slower">
         Destinations
       </h1>
@@ -33,16 +38,11 @@
           >
             {{ destination.name }}
           </b-card-text>
-            <pre>{{ latitude }} {{ longitude}}</pre>
-
-          <!-- <div class="weather-box">
-            <div class="temp">{{ Math.round(temp) }}°c</div>
-            <div class="weather">{{ overcast }}</div>
-          </div> -->
-
         </div>
       </div>
     </div>
+  </div>
+  <Galery/>
   </div>
 </template>
 
@@ -51,13 +51,7 @@ export default {
   data() {
     return {
       destinations: [],
-      currentTemp: "",
-      minTemp: "",
-      maxTemp: "",
-      overcast: "",
-      name: "",
-      latitude: "",
-      longitude: "",
+      stats: [],
     };
   },
   created() {
@@ -65,32 +59,9 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.destinations = data.results;
-        this.latitude = data.results.lat;
-        this.longitude = data.results.lng;
-        this.getWeather(data.results);
       });
   },
-  methods: {
-    getWeather(data) {
-      let lat = data["lat"];
-      let lng = data["lng"];
-      const apiKey = "c04cf6ec1e38d1c38628564a821b0bb5";
-      fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${apiKey}`
-      )
-        .then((response) => response.json())
-        .then((response) => {
-          this.currentTemp = response.main.temp;
-          this.minTemp = response.main.temp_min;
-          this.maxTemp = response.main.temp_max;
-          this.name = response.name;
-          this.overcast = response.weather[0].description;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-  }
+  
 };
 </script>
 
@@ -127,7 +98,8 @@ export default {
 }
 .info {
   position: absolute;
-  margin: 10px 0 0 5px;
+  text-transform: uppercase;
+  margin: -500px 0 0 5px;
   background: linear-gradient(
     135deg,
     rgba(248, 94, 29, 0.8) 80%,
@@ -142,15 +114,26 @@ export default {
   left: 20px;
   top: 50px;
 }
-/* .weather-box .temp {
-  display: inline-block;
-  padding: 10px 25px;
-  color: #FFF;
-  font-size: 25px;
-  font-weight: 900;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-  background-color:rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-} */
+/* tablet version */
+@media (min-width: 768px) {
+  .info {
+    background: linear-gradient(
+    135deg,
+    rgba(248, 94, 29, 0.8) 60%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  margin: 15px 0 0 5px;
+  }
+}
+/* desktop */
+@media (min-width: 992px) {
+  .info {
+    margin: 10px 0 0 5px;
+    background: linear-gradient(
+    135deg,
+    rgba(248, 94, 29, 0.8) 80%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  }
+}
 </style>

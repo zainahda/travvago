@@ -1,11 +1,18 @@
 <template>
   <div>
+    <div class="head">
+    <Navbar />
+    </div>
+    <!-- image start -->
     <b-img
       class="img-hero"
       :src="destination.image"
       fluid
       :alt="destination.name"
     ></b-img>
+    <!-- image end -->
+
+    <!-- info start -->
     <div class="container">
       <div class="title">
         <div class="title-text">
@@ -15,7 +22,7 @@
         <h4 v-for="guide in guides.slice(8, 9)" :key="guide">
           Termasuk dalam
           <span class="zonasi"
-            ><strong > {{ guide.description }}</strong></span
+            ><strong> {{ guide.description }}</strong></span
           >
           Covid-19
         </h4>
@@ -24,6 +31,9 @@
       <div class="content">
         <p>{{ destination.about }}</p>
 
+        <!-- info end -->
+
+        <!-- weather start -->
         <div class="weather-card">
           <b-card
             no-body
@@ -41,7 +51,7 @@
               <b-col md="6">
                 <b-card-body class="card-body mt-5 ml-5">
                   <b-card-text class="weather-box">
-                    <div class="location">{{ name }}</div>
+                    <div class="location">{{ name }}, {{ country }}</div>
                     <div class="date">{{ dateBuilder() }}</div>
                     <div class="temp">{{ Math.round(maxTemp) }}°c</div>
                     <div class="weather">{{ overcast }}</div>
@@ -50,7 +60,9 @@
               </b-col>
             </b-row>
           </b-card>
+          <!-- weather end -->
 
+          <!-- operational hour & prokes start -->
           <div class="information-head mt-3">
             <h3 class="information-title">Operational Hours</h3>
             <div
@@ -73,17 +85,39 @@
               </ul>
             </div>
           </div>
+          <!-- operational hour & prokes end -->
+            <!-- gmap button start -->
+            <div class="map-option mt-5 mb-1">
+              <b-button class="direction" @click="drawDirection" variant="success"
+                >Direction</b-button
+              >
+              <b-button class="clear-direction" @click="clearMap" variant="success">Clear Map</b-button>
+            </div>
+            <!-- gmap button end -->
 
-
+          <!-- google maps start -->
           <div class="maps mt-5">
             <GmapMap
-              :center="coordinate"
-              :zoom="17"
+              :center="endCoordinate"
+              :zoom="10"
               map-type-id="roadmap"
-              style="width: 1000px; height: 520px;"
+              style="width: 100%; height: 520px"
             >
+              <!-- gmap marker start -->
+              <gmap-marker :position="this.startCoordinate"> </gmap-marker>
+              <gmap-marker
+                :position="this.endCoordinate"
+                :label="destination.name"
+              >
+              </gmap-marker>
+              <!-- gmap marker end coordinates-->
+
+              <!-- gmap direction line start -->
+              <gmap-polygon :paths="paths"></gmap-polygon>
+              <!-- gmap direction line end -->
             </GmapMap>
           </div>
+          <!-- google maps end -->
         </div>
       </div>
     </div>
@@ -92,7 +126,6 @@
 
 <script>
 export default {
-  
   data() {
     return {
       id: this.$route.params.id,
@@ -104,17 +137,26 @@ export default {
       maxTemp: "",
       overcast: "",
       name: "",
-      latitude: "",
-      longitude: "",
-      coordinate: {
-              lat: -8.527716,
-              lng: 119.48332
-            }
+      startCoordinate: {
+        lat: 0,
+        lng: 0,
+      },
+      endCoordinate: {
+        lat: 0,
+        lng: 0,
+      },
+      paths: [],
     };
   },
+
+  mounted() {
+    this.geolocate();
+  },
+
   beforeMount() {
     // this.getWeather();
   },
+  // get destination api
   created() {
     fetch(
       `https://travvago-backend.herokuapp.com/api/v1/destination/detail?id=${this.id}`
@@ -127,8 +169,11 @@ export default {
         this.opening_hours = data.results.opening_hours;
         this.guides = data.results.guides;
         this.getWeather(data.results);
+        this.endCoordinate.lat = parseFloat(data.results.lat);
+        this.endCoordinate.lng = parseFloat(data.results.lng);
       });
   },
+  // get weather info
   methods: {
     getWeather(data) {
       let lat = data["lat"];
@@ -144,11 +189,13 @@ export default {
           this.maxTemp = response.main.temp_max;
           this.name = response.name;
           this.overcast = response.weather[0].description;
+          this.country = response.sys.country;
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    // get date
     dateBuilder() {
       let d = new Date();
       let months = [
@@ -180,6 +227,23 @@ export default {
       let year = d.getFullYear();
       return `${day} ${date} ${month} ${year}`;
     },
+
+    geolocate: function () {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.startCoordinate = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+      });
+    },
+
+    drawDirection() {
+      this.paths = [this.startCoordinate, this.endCoordinate];
+    },
+
+    clearMap() {
+      this.paths = [];
+    },
   },
 };
 </script>
@@ -187,6 +251,9 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 
+.head {
+  background-color: #85929e;
+}
 .header h1 {
   display: flex;
   font-family: "Montserrat", sans-serif;
@@ -213,7 +280,6 @@ export default {
   font-size: 40px;
   font-weight: 700;
   font-family: "Montserrat", sans-serif;
-
 }
 .img-hero {
   width: 100%;
@@ -221,6 +287,7 @@ export default {
 }
 .title-text {
   color: #f85e1d;
+  text-transform: uppercase;
   font-size: 50px;
   font-weight: 500;
   font-style: italic;
@@ -243,12 +310,12 @@ export default {
   display: inline-block;
   padding: 10px 25px;
   color: #f85e1d;
-  font-size: 70px;
+  font-size: 50px;
   font-weight: 900;
   text-shadow: 3px 3px rgba(0, 0, 0, 0.25);
-  background-color:rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
   border-radius: 16px;
-  margin-left: 55px;
+  margin-left: 35px;
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 .weather {
@@ -260,5 +327,49 @@ export default {
   text-shadow: 3px 3px rgba(0, 0, 0, 0.25);
   margin-top: 15px;
 }
+.direction {
+  display: inline-block;
+  position: absolute;
+  margin-top: 55px;
+  margin-left: 10px;
+  z-index: 1;
+}
+.clear-direction {
+  display: inline-block;
+  position: absolute;
+  margin-top: 55px;
+  margin-left: 105px;
+  z-index: 1;
+}
+/* tablet version */
+@media (min-width: 768px) {
+  .weather-box .temp {
+  font-size: 60px;
+  margin-left: 35px;
+}
+.direction {
+  margin-top: 11px;
+  margin-left: 205px;
+}
+.clear-direction {
+  margin-top: 11px;
+  margin-left: 300px;
+}
+}
+/* desktop versio */
+@media (min-width: 992px) {
+  .weather-box .temp {
+  font-size: 60px;
+  margin-left: 55px;
+}
+.direction {
+  margin-top: 12px;
+  margin-left: 205px;
+}
+.clear-direction {
+  margin-top: 12px;
+  margin-left: 300px;
+}
 
+}
 </style>

@@ -1,61 +1,57 @@
 <template>
-  <div class="container">
-    <div class="header">
-      <h1 class="animate__animated animate__fadeInLeft animate__slower">
-        Destinations
-      </h1>
+  <div>
+    <div class="head">
+    <Navbar />
     </div>
 
-    <div class="row mt-3">
-      <div class="col">
-        <div class="input-group mb-3 shadow">
-          <input
+    <div class="container">
+      <div class="header mt-4">
+        <h1 class="animate__animated animate__fadeInLeft animate__slower">
+          Destinations
+        </h1>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col">
+          <div class="input-group mb-3 shadow">
+            <input
               v-model="search"
-              type="text"
               class="form-control"
+              type="text"
               placeholder="Cari Destinasi .."
-              aria-label="Cari"
-              aria-describedby="basic-addon1"
-              @keyup="searchDestination"
             />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row mb-4">
-      <div
-        class="col-md-4 mt-4"
-        v-for="destination in destinations"
-        :key="destination.id"
-      >
-        <div class="card-group shadow">
-          <b-card
-            class="card animate__animated animate__fadeInDown animate__slower"
-            overlay
-            :img-src="destination.image"
-            :img-alt="destination.title"
-            text-variant="info"
-            img-width="600px"
-            img-height="500px"
-          >
-            <nuxt-link
-              class="explore btn btn-block"
-              :to="`/destinations/${destination.id}`"
-              >Explore Now</nuxt-link
+      <div class="row mb-4">
+        <div
+          class="col-md-4 mt-4"
+          v-for="destination in filteredDestinations"
+          :key="destination.id"
+        >
+          <div class="card-group shadow">
+            <b-card
+              class="card animate__animated animate__fadeInDown animate__slower"
+              overlay
+              :img-src="destination.image"
+              :img-alt="destination.title"
+              text-variant="info"
+              img-width="600px"
+              img-height="500px"
             >
-          </b-card>
-          <b-card-text
-            class="info animate__animated animate__fadeInUp animate__slower"
-          >
-            {{ destination.name }}
-          </b-card-text>
-          <div>
-            <b-form-rating
-              class="ratings"
-              id="rating-inline"
-              inline
-              :value="destination.ratings"
-            ></b-form-rating>
+              <nuxt-link
+                class="explore btn btn-block"
+                :to="`/destinations/${destination.id}`"
+                >Explore Now</nuxt-link
+              >
+            </b-card>
+            <b-card-text
+              class="info animate__animated animate__fadeInUp animate__slower"
+            >
+              {{ destination.name }}
+            </b-card-text>
+
           </div>
         </div>
       </div>
@@ -68,7 +64,7 @@ export default {
   data() {
     return {
       destinations: [],
-      search: '',
+      search: "",
     };
   },
   created() {
@@ -76,22 +72,25 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.destinations = data.results;
+        this.destinations = data.results.name.slice(0, 10);
       });
   },
-  methods: {
-  searchDestination(){
-    fetch(`https://travvago-backend.herokuapp.com/api/v1/destination/search?search=${search}`)
-      .then((response) => this.destinations(response.data))
-      .catch((error) => console.log(error));
-  }
+  computed: {
+    filteredDestinations: function () {
+      return this.destinations.filter((destination) => {
+        return destination.name.match(this.search);
+      });
+    },
   },
-
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
+.head {
+  background-color: #85929e;
+}
 .header h1 {
   display: flex;
   background: linear-gradient(
@@ -122,7 +121,8 @@ export default {
 }
 .info {
   position: absolute;
-  margin: 10px 0 0 5px;
+  text-transform: uppercase;
+  margin: -500px 0 0 5px;
   background: linear-gradient(
     135deg,
     rgba(248, 94, 29, 0.8) 80%,
@@ -131,10 +131,27 @@ export default {
   padding: 5px 100px 5px 5px;
   color: #ffffff;
 }
-.ratings {
-  position: absolute;
-  color: #ffd700;
-  left: 20px;
-  top: 50px;
+/* tablet version */
+@media (min-width: 768px) {
+  .info {
+    font-size: 15px;
+    background: linear-gradient(
+    135deg,
+    rgba(248, 94, 29, 0.8) 60%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  margin: 15px 0 0 5px;
+  }
+}
+/* desktop versio */
+@media (min-width: 992px) {
+  .info {
+    margin: 10px 0 0 5px;
+    background: linear-gradient(
+    135deg,
+    rgba(248, 94, 29, 0.8) 80%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  }
 }
 </style>
