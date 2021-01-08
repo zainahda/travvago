@@ -125,7 +125,7 @@ export default {
   margin: -500px 0 0 5px;
   background: linear-gradient(
     135deg,
-    rgba(248, 94, 29, 0.8) 80%,
+    rgba(248, 94, 29, 0.8) 90%,
     rgba(255, 255, 255, 0) 0%
   );
   padding: 5px 100px 5px 5px;

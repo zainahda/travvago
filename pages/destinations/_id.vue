@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="head">
-    <Navbar />
+      <Navbar />
     </div>
     <!-- image start -->
     <b-img
@@ -18,6 +18,7 @@
         <div class="title-text">
           <em>{{ destination.name }}</em>
         </div>
+        
         <h4>{{ destination.address }}</h4>
         <h4 v-for="guide in guides.slice(8, 9)" :key="guide">
           Termasuk dalam
@@ -70,7 +71,7 @@
               v-for="hour in opening_hours"
               :key="hour.id"
             >
-              {{ hour.day_name }} <br />
+              <strong>{{ hour.day_name }}</strong> <br />
               {{ hour.time_from }} - {{ hour.time_to }}
             </div>
           </div>
@@ -86,14 +87,19 @@
             </div>
           </div>
           <!-- operational hour & prokes end -->
-            <!-- gmap button start -->
-            <div class="map-option mt-5 mb-1">
-              <b-button class="direction" @click="drawDirection" variant="success"
-                >Direction</b-button
-              >
-              <b-button class="clear-direction" @click="clearMap" variant="success">Clear Map</b-button>
-            </div>
-            <!-- gmap button end -->
+          <!-- gmap button start -->
+          <div class="map-option mt-5 mb-1">
+            <b-button class="direction" @click="drawDirection" variant="success"
+              >Direction</b-button
+            >
+            <b-button
+              class="clear-direction"
+              @click="clearMap"
+              variant="success"
+              >Clear Map</b-button
+            >
+          </div>
+          <!-- gmap button end -->
 
           <!-- google maps start -->
           <div class="maps mt-5">
@@ -344,32 +350,31 @@ export default {
 /* tablet version */
 @media (min-width: 768px) {
   .weather-box .temp {
-  font-size: 60px;
-  margin-left: 35px;
-}
-.direction {
-  margin-top: 11px;
-  margin-left: 205px;
-}
-.clear-direction {
-  margin-top: 11px;
-  margin-left: 300px;
-}
+    font-size: 60px;
+    margin-left: 35px;
+  }
+  .direction {
+    margin-top: 11px;
+    margin-left: 205px;
+  }
+  .clear-direction {
+    margin-top: 11px;
+    margin-left: 300px;
+  }
 }
 /* desktop versio */
 @media (min-width: 992px) {
   .weather-box .temp {
-  font-size: 60px;
-  margin-left: 55px;
-}
-.direction {
-  margin-top: 12px;
-  margin-left: 205px;
-}
-.clear-direction {
-  margin-top: 12px;
-  margin-left: 300px;
-}
-
+    font-size: 60px;
+    margin-left: 55px;
+  }
+  .direction {
+    margin-top: 12px;
+    margin-left: 205px;
+  }
+  .clear-direction {
+    margin-top: 12px;
+    margin-left: 300px;
+  }
 }
 </style>

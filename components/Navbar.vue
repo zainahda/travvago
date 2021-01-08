@@ -11,17 +11,9 @@
             <b-navbar-nav class="navbar-link ml-auto">
                 <b-nav-item href="/">Home |</b-nav-item>
                 <b-nav-item href="/destination">Destination |</b-nav-item>
-                <b-nav-item href="#">Galery |</b-nav-item>
+                <b-nav-item href="/covid19">Info Covid-19 |</b-nav-item>
             </b-navbar-nav>
 
-            <!-- login button for provider only -->
-                <!-- <b-button class="btn btn-login" href="../users/login"><svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                    <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                    </svg> Login </b-button>
-                    <b-button class="btn btn-signup" href="#">Sign up</b-button> -->
-                    
             </b-collapse>
         </div>
     </b-navbar>
